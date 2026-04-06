@@ -1,71 +1,49 @@
-# 🎙️ Presets EasyEffects para Microfone BM-800 (Sem Phantom Power)
+# 🎙️ BM-800 Linux Audio Voice Pro: Presets para EasyEffects
 
 Este repositório contém perfis de áudio configurados para o **EasyEffects** (PipeWire), criados especificamente para domar as características do microfone condensador **BM-800** quando utilizado **diretamente no PC, sem uma fonte de alimentação Phantom Power (48V) ou interface de áudio**.
 
-Como o BM-800 é um microfone que requer energia extra para operar com força total, ligá-lo direto na placa-mãe faz com que ele perca boa parte da sua capacidade natural de captação e ganho. Isso resulta em um áudio muito agudo, com som "metálico" e com bastante ruído estático de fundo (*hiss*). 
+Como o BM-800 é um microfone que requer energia extra para operar com força total, ligá-lo direto na placa-mãe faz com que ele perca boa parte da sua capacidade natural de captação e ganho. Isso resulta em um áudio muito agudo, com som "metálico" e com bastante ruído estático de fundo (*hiss*).
 
 O objetivo destes presets é compensar digitalmente essa deficiência de hardware: entregando um som limpo, com peso de "locução de rádio", e isolando ruídos de teclado mecânico e mouse sem picotar a voz.
 
-## 🐧 Compatibilidade Linux e Dependências
+---
 
-Esta configuração é compatível com **qualquer distribuição Linux** que utilize o servidor de áudio **PipeWire**.
+## 📁 Arquivos e Estrutura do Repositório
 
-**Atenção:** O EasyEffects é apenas o "hospedeiro" dos efeitos. Na grande maioria das distros, **os filtros não vêm pré-baixados**. Para que o perfil funcione e os plugins (Equalizador, Expander, Deesser, Limiter) apareçam na sua tela, você deve instalar os pacotes de plugins LV2 no seu sistema.
+* **Pasta `/presets`**: Contém os arquivos de configuração em formato **`.json`**.
+* **Pasta `/images`**: Contém capturas de tela (screenshots) de cada plugin configurado. Use essas imagens como guia visual para conferir se os parâmetros foram carregados corretamente ou para configurar manualmente se preferir.
 
-Exemplo de instalação no Arch Linux / EndeavourOS:
-```bash
-sudo pacman -S easyeffects lsp-plugins calf rnnoise
-```
+---
 
-*(Usuários de Ubuntu, Fedora, Mint ou Pop!_OS devem procurar pelos pacotes equivalentes, como `lsp-plugins` e `calf-plugins`, em seus respectivos gerenciadores de pacotes).*
+### Presets Disponíveis:
 
-## 📁 Arquivos Disponíveis
+* **`BM-800 (Natural + Equalize + Deeser + RNoiser).json`** : 🏆 **(Recomendado)** Versão completa com Noise Reduction (RNNoise) para ambientes com ruído constante (ventiladores, ar-condicionado).
+* **`BM-800 (Natural + Equalize + Deeser).json`** : Foco em encorpar a voz (ganho em 126-194Hz), remover o brilho metálico e suavizar os "S" da fala.
+* **`BM-800.json`** : O perfil base de equalização.
+* **`BM-800 (Natural + Equalize) [SEM SUPRESSOR].json`** : Para ambientes com tratamento acústico.
+* **`BM-800 (Natural + Sem supressor).json`** : Configuração mais leve.
 
-No diretório principal, você encontrará variações do preset para diferentes necessidades:
+> *Nota: Você tem total liberdade para desativar filtros individuais diretamente na interface do EasyEffects conforme sua necessidade.*
 
-* **`BM-800.json`** : O perfil base.
-* **`BM-800 (Natural + Equalize + Deeser).json`** : Foco em encorpar a voz (ganho em 126-194Hz), remover o brilho metálico (corte gradual de 6kHz até 18kHz) e suavizar os "S" da fala. Usa um Expander suave para mutar o teclado quando não há fala.
-* **`BM-800 (Natural + Equalize + Deeser + RNoiser).json`** : *(Recomendado)*  Versão com o plugin Noise Reduction ativado para ambientes com ruído constante e pesado (como ventiladores de teto ou ar-condicionado).
-* **`BM-800 (Natural + Equalize) [SEM SUPRESSOR].json`** : Foco apenas no peso da voz e remoção do som de lata, ideal para quem grava em ambientes muito silenciosos ou com tratamento acústico.
-* **`BM-800 (Natural + Sem supressor).json`** : Configuração mais leve, sem atuação extrema contra ruídos.
+*(Usuários de Ubuntu, Fedora ou Mint devem buscar por `lsp-plugins`, `calf-plugins` e `librnnoise` em seus gerenciadores).*
 
-> De toda forma, você tem a liberdade de desativa no próprio EasyEffects, caso deseje. 
+---
 
-## ⚙️ A Cadeia de Filtros (Pipeline)
+## 🚀 Como Instalar e Configurar
 
-A mágica acontece (principalmente no preset recomendado) através da seguinte ordem de plugins:
+1. Baixe os arquivos `.json` da pasta `/presets`.
+2. Abra o EasyEffects -> Aba **PipeWire** -> **Predefinições** (Presets).
+3. Clique em **Importar** e selecione os arquivos baixados.
+4. Selecione o preset e clique em **Carregar** (Load).
+5. **Dica Visual:** Consulte a pasta `/images` deste repositório para comparar os gráficos e garantir que os efeitos estão ativos.
 
-1. **High-pass Filter (100Hz):** Corta o "pum" dos graves extremos e estalos de vento que a placa-mãe não consegue filtrar.
-2. **Expander:** Atua como um silenciador inteligente. Configurado com Threshold em -36dB a -40dB e Ratio alto (5.0) para matar o barulho do teclado mecânico enquanto você não fala.
-3. **Equalizer (32 Bandas):** Traz o corpo da voz (Médios-Graves) e aplica reduções pesadas nas altas frequências para matar o *hiss* natural gerado pela falta do Phantom Power.
-4. **Deesser:** Segura os chiados em palavras com "S" ou "X" de forma natural (Threshold -18dB / Laxity 15ms).
-5. **Loudness Limiter:** O escudo final. Trava picos sonoros (como palmas ou gritos) para não estourar os ouvidos de quem escuta.
-
-## 🚀 Como Instalar no Linux
-
-1. Certifique-se de ter o EasyEffects e os `lsp-plugins` instalados.
-2. Baixe os arquivos `.json` deste repositório.
-3. Abra o EasyEffects.
-4. Vá até a aba **PipeWire** -> **Predefinições** (Presets).
-5. Clique no botão de **Importar** e selecione os arquivos `.json`.
-6. Selecione o preset desejado na lista e clique em **Carregar** (Load).
-
-## 🪟 Alternativa para Usuários de Windows
-
-O EasyEffects é um software construído exclusivamente para a arquitetura de áudio do Linux. Se você está utilizando **Windows** e sofre com o mesmo problema no BM-800 sem Phantom Power, a melhor ferramenta gratuita para aplicar filtros e encorpar a voz é o  **VoiceMeeter Banana** .
-
-O VoiceMeeter atua como uma mesa de som virtual, onde você pode equalizar os graves, adicionar gates para ruído de teclado e melhorar consideravelmente o som do BM-800.
-
-Para realizar essa configuração do zero e ainda separar o áudio do seu PC (Discord, Spotify, Jogos), recomendamos seguir este tutorial:
-▶️ [COMO CONFIGURAR VOICEMEETER BANANA E SEPARAR FAIXAS DE ÁUDIO](https://www.youtube.com/watch?v=0EjDL3BgPk4&t=209s) (A partir de [03:29]).
+---
 
 ## 🎮 Dicas de Uso (CS2, Discord, etc)
 
-Para que o áudio filtrado funcione corretamente em jogos e aplicativos de comunicação no Linux:
-
-* **No Sistema:** O EasyEffects cria um microfone virtual. Certifique-se de que o **"EasyEffects Source"** está selecionado como o dispositivo de entrada padrão nas configurações de áudio do sistema.
-* **Discord:** Vá em *Voz e Vídeo* e desative **todas** as opções de processamento nativas (Supressão de Ruído, Cancelamento de Eco, Controle Automático de Ganho). O Discord "briga" com o EasyEffects se você não desligar isso.
-* **Counter-Strike / Source Engine:** Os jogos da Valve costumam forçar alterações no volume do microfone, bagunçando seus filtros. Adicione as seguintes linhas no seu arquivo `autoexec.cfg` para impedir isso:
+* **No Sistema:** Certifique-se de que o **"EasyEffects Source"** está selecionado como seu microfone padrão no KDE/Gnome.
+* **Discord:** Desative **todas** as opções de "Redução de Ruído" e "Cancelamento de Eco" do Discord para evitar conflito com o EasyEffects.
+* **Counter-Strike / Source Engine:** Adicione ao seu `autoexec.cfg` para evitar que o jogo altere seu volume:
   **Snippet de código**
 
   ```
@@ -73,4 +51,19 @@ Para que o áudio filtrado funcione corretamente em jogos e aplicativos de comun
   voice_mixer_volume "1.0" 
   ```
 
-> Pull requests e sugestões de melhoria são bem-vindos!
+---
+
+## 🪟 Alternativa para Windows (VoiceMeeter)
+
+Para usuários de Windows, o EasyEffects não está disponível. Recomendamos o uso do **VoiceMeeter Banana** com este guia:
+▶️ [Tutorial VoiceMeeter - Configuração e Separação de Áudio](https://www.youtube.com/watch?v=0EjDL3BgPk4&t=209s)
+
+---
+
+## 💬 Dúvidas, Sugestões ou Ajuda?
+
+Se você tiver dificuldade na instalação, encontrar um bug ou quiser compartilhar uma melhoria na equalização, nossa aba de **Discussions** está aberta!
+
+👉 [Acesse aqui o Fórum da Comunidade](https://github.com/lucaspaiva-lp/bm800-linux-voice/discussions)
+
+> Pull requests são muito bem-vindos! Vamos melhorar o áudio da comunidade Linux juntos. 💪
