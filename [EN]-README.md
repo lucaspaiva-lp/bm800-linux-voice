@@ -1,5 +1,5 @@
 [![PT-BR](https://img.shields.io/badge/lang-PT--BR-green?style=for-the-badge&logo=google-translate)](https://github.com/lucaspaiva-lp/bm800-linux-voice)
-[![EN](https://img.shields.io/badge/lang-EN-blue?style=for-the-badge&logo=google-translate)](https://github.com/lucaspaiva-lp/lucaspaiva-lp)
+[![EN](https://img.shields.io/badge/lang-EN-blue?style=for-the-badge&logo=google-translate)](https://github.com/lucaspaiva-lp/bm800-linux-voice/blob/main/%5BEN%5D-README.md)
 
 
 # 🎙️ BM-800 Linux Audio Voice Pro: Presets for EasyEffects
